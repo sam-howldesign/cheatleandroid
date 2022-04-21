@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CheatleWord(
-    wordNumber: Int = 1,
+    wordNumber: Int = 0,
     modifier: Modifier = Modifier,
     cheatleViewModel: CheatleViewModel = viewModel()
 ) {
@@ -21,13 +21,13 @@ fun CheatleWord(
         modifier = modifier
     ){
         items(
-            items = cheatleViewModel.boxes,
+            items = cheatleViewModel.boxes[wordNumber],
             key = { box -> box.id }
         ){ box ->
             CheatleBox(
                 box = box,
-                onLetterChange = { newLetter -> cheatleViewModel.changeLetter(box, newLetter) },
-                onColorEnumChange = { cheatleViewModel.changeColor(box) }
+                onLetterChange = { newLetter -> cheatleViewModel.changeLetter(box, newLetter, wordNumber) },
+                onColorEnumChange = { cheatleViewModel.changeColor(box, wordNumber) }
             )//end CheatleBox
         }
     }

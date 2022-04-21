@@ -19,28 +19,33 @@ inline fun <reified T: Enum<T>> T.next(): T {
 data class CheatleBoxData(val id: Int, var letter: String = "", var color: BoxColors = BoxColors.white)
 
 class CheatleViewModel: ViewModel() {
-    private val _boxes = getBoxes().toMutableStateList()
-    val boxes: List<CheatleBoxData>
+    private val _boxes = getAllBoxes().toMutableStateList()
+    val boxes: List<List<CheatleBoxData>>
         get() = _boxes
 
-    fun changeColor(box: CheatleBoxData){
+    fun changeColor(box: CheatleBoxData, wordIndex: Int){
+        val updatedWord: MutableList<CheatleBoxData> = _boxes.get(wordIndex).toMutableList()
+        updatedWord.set(box.id, box.copy(color = box.color.next()))
+
         _boxes.set(
-            box.id,
-            box.copy(color = box.color.next())
+            wordIndex,
+            updatedWord.toList()
         )
     }
 
-    fun changeLetter(box: CheatleBoxData, newLetter: String){
+    fun changeLetter(box: CheatleBoxData, newLetter: String, wordIndex: Int){
+        val updatedWord: MutableList<CheatleBoxData> = _boxes.get(wordIndex).toMutableList()
+        updatedWord.set(box.id, box.copy(letter = newLetter))
+
         if (newLetter.length <= 1){
             _boxes.set(
-                box.id,
-                box.copy(letter = newLetter)
+                wordIndex,
+                updatedWord.toList()
             )
         }
     }
 
 }
-///TODO: dick around here making a list of lists then change the code to understand that
 private fun getAllBoxes() = List(5){ i -> List(5){ j -> CheatleBoxData(j) } }
 
-private fun getBoxes() = List(5){ i -> CheatleBoxData(i) }
+//private fun getBoxes() = List(5){ i -> CheatleBoxData(i) }

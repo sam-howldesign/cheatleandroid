@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 fun CheatleApp(
     cheatleViewModel: CheatleViewModel = viewModel()
 ) {
-///TODO: make a bunch of cheatlewords, maybe make an index param for cheatleword?
+
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -51,7 +51,7 @@ fun CheatleApp(
             .fillMaxWidth()
     ){
         //make 5 words
-        for (i in 0..5) {
+        for (i in 0..4) {
             CheatleWord(
                 wordNumber = i,
                 cheatleViewModel = cheatleViewModel
