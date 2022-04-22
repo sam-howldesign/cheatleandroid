@@ -33,8 +33,8 @@ fun CheatleBox(
             colors = ButtonDefaults.buttonColors(backgroundColor = color),
             modifier = modifier
                 .border(width = 1.dp, Color.Black)
-                .width(65.dp)
-                .height(65.dp)
+                .width(70.dp)
+                .height(70.dp)
         ){ }
         TextField(
             singleLine = true,
