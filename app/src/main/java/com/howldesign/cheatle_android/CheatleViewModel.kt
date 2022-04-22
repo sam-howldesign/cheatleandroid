@@ -1,17 +1,12 @@
 package com.howldesign.cheatle_android
 
 import android.content.Context
-import android.renderscript.ScriptGroup
+import android.util.Log
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.io.InputStream
 
 enum class BoxColors { white, gray, yellow, green }
@@ -85,7 +80,68 @@ class CheatleViewModel: ViewModel() {
     }
 
     fun filter(){
-//TODO: figure out the filtering.  Probably the same as in iOS
+
+        _listOfWords.clear()
+        val yellowLetters = mutableListOf<String>()
+        val grayLetters = mutableListOf<String>()
+
+        for (wordIndex in 0..4){
+            //foreach word guess
+            for (letterIndex in 0..4){
+                val box = _boxes[wordIndex][letterIndex]
+                if (box.color == BoxColors.yellow){
+                    yellowLetters.add(box.letter)
+                }
+                if (box.color == BoxColors.gray){
+                    grayLetters.add(box.letter)
+                }
+            }
+        }//end for wordindex
+
+        allWords@ for (possibleWord in _allWords){
+            //skip any blank lines
+            if (possibleWord.length != 5) {
+                continue@allWords
+            }
+
+            for(grayLetter in grayLetters){
+                if (possibleWord.contains(grayLetter, ignoreCase = true)){
+                    //skip any word with any gray letter
+                    continue@allWords
+                }
+            }
+
+            for (wordIndex in 0..4){
+                for (letterIndex in 0..4){
+                    val box = _boxes[wordIndex][letterIndex]
+                    if (
+                        box.color == BoxColors.green
+                        && possibleWord[letterIndex].toString() != box.letter
+                    ){
+                        //this letter is green but not in the possible word at this index so skip
+                        continue@allWords
+                    }
+
+                    if (
+                        box.color == BoxColors.yellow
+                        && possibleWord[letterIndex].toString() == box.letter
+                    ){
+                        //this letter is yellow and the possible has it in the same spot so skip
+                        continue@allWords
+                    }
+                }//end for each letter
+            }//end for each word
+
+            for (yellowLetter in yellowLetters){
+                if (!possibleWord.contains(yellowLetter, ignoreCase = true)){
+                    //this word does not contain all of the yellow letters
+                    continue@allWords
+                }
+            }
+
+            //passed all tests so keep this one
+            _listOfWords.add(possibleWord)
+        }//end for each allwords
 
     }
 
@@ -102,5 +158,3 @@ class CheatleViewModel: ViewModel() {
     }
 }
 private fun getAllBoxes() = List(5){ i -> List(5){ j -> CheatleBoxData(j) } }
-
-//private fun getBoxes() = List(5){ i -> CheatleBoxData(i) }

@@ -1,10 +1,8 @@
 package com.howldesign.cheatle_android
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.howldesign.cheatle_android.ui.theme.CheatleandroidTheme
