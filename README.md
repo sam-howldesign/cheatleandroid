@@ -1,5 +1,5 @@
 # cheatleandroid
-Cheatle app written for JAWAD meetup
+Cheatle app written for JAWAD meetup (presentation link: https://howldesign.com/presentations/cheatle/jawad-cheatle.html)
 
 This is an Android app written using Jetpack Compose that helps you out with Wordle (https://www.nytimes.com/games/wordle/index.html)
 
